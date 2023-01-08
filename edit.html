@@ -15,7 +15,7 @@
         const sq = params[""]
         if (sq === null) window.location.href = "index.html?=ホームページ"
         document.title = `Editing ${sq}`;
-
+        const api_endpt = "https://ificiana.alwaysdata.net/"
     </script>
     <style>
         a {
@@ -296,7 +296,7 @@
                 }
                 console.log(data);
                 (async () => {
-                    const rawResponse = await fetch('http://127.0.0.1:5000/tdj-edit', {
+                    const rawResponse = await fetch(`${api_endpt}tdj-edit`, {
                         method: 'POST',
                         headers: {
                             'Accept': 'application/json',
@@ -337,7 +337,7 @@
                 .innerHTML = `<hr>TDJ by Ificiana`;
         }
         async function load() {
-            const data = await fetch("http://127.0.0.1:5000/tdj-get?=" + sq);
+            const data = await fetch(`${api_endpt}tdj-get?=${sq}`);
             show_data(await data.json());
         }
 

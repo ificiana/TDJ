@@ -1,6 +1,7 @@
+const api_endpt = "https://ificiana.alwaysdata.net/"
 async function search(inp) {
             arr = await (async () => {
-                const data = await fetch(`http://127.0.0.1:5000/tdj-search?q=${inp.value}`);
+                const data = await fetch(`${api_endpt}tdj-search?q=${inp.value}`);
                 return data.json();
             })();
             var currentFocus;
@@ -14,7 +15,7 @@ async function search(inp) {
                     return false;
                 }
                 arr = await (async () => {
-                    const data = await fetch(`http://127.0.0.1:5000/tdj-search?q=${val}`);
+                    const data = await fetch(`${api_endpt}tdj-search?q=${val}`);
                     return data.json();
                 })();
                 console.log(arr);
@@ -87,6 +88,6 @@ async function search(inp) {
         }
         async function load(query) {
             console.log(query)
-            const data = await fetch("http://127.0.0.1:5000/tdj-get?=" + query);
+            const data = await fetch(`${api_endpt}tdj-get?=${query}`);
             show_data(await data.json(), query);
         }
