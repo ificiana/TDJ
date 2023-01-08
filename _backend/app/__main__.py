@@ -3,7 +3,7 @@ import re
 from flask import Flask, request, jsonify
 from pymongo.collection import Collection
 
-from .dbc import connect
+from .dbc import connect, auth
 
 app = Flask(__name__)
 mc = connect()
@@ -62,4 +62,19 @@ def tdj_search():
 
 @app.route('/tdj-edit', methods=['POST'])
 def tdj_edit():
-    print()
+    data = request.get_json(True)
+    if auth(data):
+        data = data["data"]
+        res = jsonify({"status": "success"})
+        col: Collection = mc.data.main
+        col.replace_one({"key": data["key"]}, {
+            "key": data["key"],
+            "sub": data["sub"],
+            "def": data["def"],
+        }, upsert=True)
+        res.status = 200
+    else:
+        res = jsonify({"status": "failed"})
+        res.status = 401
+    res.headers.add("Access-Control-Allow-Origin", "*")
+    return res

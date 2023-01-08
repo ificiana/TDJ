@@ -7,10 +7,10 @@ uses https://dictionary.goo.ne.jp/ for its entries.
 
 * Dictionary lookup
 * Searching
+* WYSIWYG Editing
 
 ## Planned Features
 
-* WYSIWYG Editing (almost there...)
 * Text analyser
 * Flash cards
 
@@ -18,27 +18,31 @@ uses https://dictionary.goo.ne.jp/ for its entries.
 
 * First write the `dbc.py` file inside `app` package directory.
   It looks like this:
-    ```py
-    import os
-    
-    import pymongo
-    
-    USER = os.getenv("MONGOUSER")
-    PASSWORD = os.getenv("MONGOPASSWORD")
-    SITE = os.getenv("MONGOSITE")
-    
-    
-    def connect():
-        return pymongo.MongoClient(
-            f"mongodb+srv://{USER}:{PASSWORD}@{SITE}.mongodb.net/?retryWrites=true&w=majority")
-    ```
-* Ask me the credentials. (... heh)
-* Then get the backend running at http://127.0.0.1:5000.
+  ```pycon
+  import os
+      
+  import pymongo
+  
+  USER = os.getenv("MONGOUSER")
+  PASSWORD = os.getenv("MONGOPASSWORD")
+  SITE = os.getenv("MONGOSITE")
+  
+  
+  def connect():
+      return pymongo.MongoClient(
+          f"mongodb+srv://{USER}:{PASSWORD}@{SITE}.mongodb.net/?retryWrites=true&w=majority")
+  
+  def auth(data):
+      return something_that_is_true_on_auth()
+  ```
+* Ask me for the credentials. (... heh)
+* Then get the backend running at http://127.0.0.1:5000. Make sure you see "Hello from Flask!"
 * Go to https://ificiana.github.io/tdj to get started!
 
 ## Why not automate the entries?
 
 Because I am the one learning. If I didn't learn the word, it won't be here.
+Basic kana-only words will not be there. (Homepage is an exception)
 
 ## Why not host the backend?
 
