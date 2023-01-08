@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width,initial-scale=1" name="viewport"/>
+    <meta name="description"
+        content="TDJ by Ificiana: ">
+    <link rel="preconnect" href="https://127:0.0.1:5000">
+    <title>TDJ</title>
+    <script>
+        const sq = new Proxy(new URLSearchParams(window.location.search), { get: (searchParams, prop) => searchParams.get(prop) })[""];
+        if (sq === null) window.location.href = "?=ホームページ";
+        document.title = sq;
+
+    </script>
+    <script src="main.js" defer></script>
+    <link rel="stylesheet" href="main.css" media="print" onload="this.media='all'">
+</head>
+
+<body>
+<header>
+    <div class="search"><input autocomplete="off" id="search" name="search"
+                               placeholder="Search..."/></div>
+</header>
+<main id="main"></main>
+<footer id="footer"></footer>
+<script>
+        window.onload = () => {
+            load(sq);
+            search(document.getElementById("search"));
+            document
+                .getElementsByTagName('meta')
+                .namedItem('description')
+                .setAttribute('content', `TMD by Ificiana: ${sq}`)
+        }
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja-jp">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="robots" content="noindex">
+    <title>TDJ</title>
+    <script>
+        const params = new Proxy(new URLSearchParams(window.location.search), { get: (searchParams, prop) => searchParams.get(prop), })
+        const sq = params[""]
+        if (sq === null) window.location.href = "index.html?=ホームページ"
+        document.title = `Editing ${sq}`;
+    </script>
+    <style>
+        a {
+            text-decoration: none;
+            color: #00f
+        }
+
+        body {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            border: .1rem solid #000;
+            border-radius: 36px
+        }
+
+        footer {
+            text-align: center;
+            margin-top: auto
+        }
+
+        header {
+            padding: 10px;
+            text-align: right;
+            margin-bottom: auto
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <span id="edith1"></span>
+    </header>
+    <div id="main"></div>
+    <footer id="footer"></footer>
+    <script>
+        function escapeHTML(s) {
+            let out = "";
+            let p2 = 0;
+            for (let p = 0; p < s.length; p++) {
+                let r;
+                switch (s.charCodeAt(p)) {
+                    case 34: r = "&quot;"; break;  // "
+                    case 38: r = "&amp;"; break;  // &
+                    case 39: r = "&#39;"; break;  // '
+                    case 60: r = '&lt;'; break;  // <
+                    case 62: r = '&gt;'; break;  // >
+                    default: continue;
+                }
+                if (p2 < p) {
+                    out += s.substring(p2, p);
+                }
+                out += r;
+                p2 = p + 1;
+            }
+            if (p2 == 0) {
+                return s;
+            }
+            if (p2 < s.length) {
+                out += s.substring(p2);
+            }
+            return out;
+        }
+        let area = null;
+        let DATA = null;
+        function editStart(dom, _t) {
+            area = document.createElement('textarea');
+            area.className = 'edit';
+            area.value = DATA[_t];
+            area.onkeydown = (e) => (e.key == 'Enter')? this.blur(): ()=>{};
+            area.onblur = () => editEnd(dom, _t);
+            dom.replaceWith(area);
+            area.focus();
+        }
+        function editEnd(dom, _t) {
+            DATA[_t] = escapeHTML(area.value);
+            // area.replaceWith(dom);
+            show_data(DATA);
+        }
+    </script>
+    <script>
+        document.getElementById("edith1").innerHTML = `<< <a href='index.html?=${sq}'>abort</a> | Editing ${sq} | <a onclick='save()'> Next</a> >>`;
+        function render(str) { 
+            return str
+                .replace(/\[!(.+?)\]/g, `<a href='/$1.html?=${sq}'>$1</a>`)
+                .replace(/\[(.+?)\]/g, "<a href='?=$1'>$1</a>");
+            }
+        function show_data(_json) {
+            if(_json.key == "404"){
+                _json.key = "Enter word";
+                _json.sub = "Enter subheading (can be empty)"
+                _json.def = "Enter definion, supports TDJ markdown"
+            }
+            DATA = _json;
+            const res = document.getElementById("main");
+            res.innerHTML = `<h1 onclick="editStart(this, 'key')">${_json.key}</h1><hr><h2 onclick="editStart(this, 'sub')">${_json.sub}</h2><p onclick="editStart(this, 'def')">${render(_json.def)}</p>`;
+            document.getElementById("footer").innerHTML = `<hr>TDJ by Ificiana`;
+            Array.from(document.querySelectorAll(".view>a")).forEach((a) => { a.target = "_blank"; });
+        }
+        async function load() { const data = await fetch("http://127.0.0.1:5000/tdj-get?=" + sq); show_data(await data.json()); }
+    </script>
+    <script>
+        load()
+    </script>
+</body>
+
+</html>
