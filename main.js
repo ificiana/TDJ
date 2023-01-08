@@ -76,7 +76,7 @@ async function search(inp) {
             });
         }
         function render(str, query) {
-            return str.replace(/\[!(.+?)\]/g, `<a href='/$1.html?=${query}'>$1</a>`).replace(/\[(.+?)\]/g, "<a href='?=$1'>$1</a>");
+            return str.replace(/\[!(.+?)\]/g, `<a href='$1.html?=${query}'>$1</a>`).replace(/\[(.+?)\]/g, "<a href='?=$1'>$1</a>");
         }
         function show_data(_json, query) {
             const res = document.getElementById("main");
