@@ -76,14 +76,17 @@ async function search(inp) {
             });
         }
         function render(str, query) {
+            console.log(query)
             return str.replace(/\[!(.+?)\]/g, `<a href='$1.html?=${query}'>$1</a>`).replace(/\[(.+?)\]/g, "<a href='?=$1'>$1</a>");
         }
         function show_data(_json, query) {
+            console.log(query)
             const res = document.getElementById("main");
             res.innerHTML = `<h1>${_json.key}</h1><hr><h2>${_json.sub}</h2><p>${render(_json.def, query)}</p>`;
             document.getElementById("footer").innerHTML = `<hr>${render(_json.footer, query)}`;
         }
         async function load(query) {
+            console.log(query)
             const data = await fetch("http://127.0.0.1:5000/tdj-get?=" + query);
-            show_data(await data.json(query));
+            show_data(await data.json(), query);
         }
