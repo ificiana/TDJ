@@ -47,6 +47,10 @@ async function search(inp) {
             a.appendChild(addToList("No match found."));
             return;
         }
+        if (arrSearch[0] != currentVal) {
+            a.appendChild(addToList(`Exact match not found, <a href='edit.html?=${currentVal}'>Create?</a>`));
+            return;
+        }
         for (i of arrSearch) {
             b = addToList(i+"<input type='hidden' value='" + i + "'>")
             b.addEventListener("click", function () {
