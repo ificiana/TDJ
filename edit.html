@@ -9,7 +9,7 @@
     <link rel="preload" href="logo.webp" as="image" />
     <link rel="preload" href="bg.webp" as="image" />
     <link rel="preload" href="main.js" as="script" />
-    <link rel="preconnect" href="https://jp-tok.functions.appdomain.cloud">
+    <link rel="preconnect" href="https://jp-tok.functions.appdomain.cloud" crossorigin="anonymous">
     <title>TDJ</title>
     <script>
         const sq = new Proxy(new URLSearchParams(window.location.search), { get: (searchParams, prop) => searchParams.get(prop) })[""];
