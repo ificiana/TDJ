@@ -43,6 +43,8 @@ function editStart(dom, _t) {
     area = document.createElement('textarea');
     area.className = 'edit';
     area.value = DATA[_t];
+    if (_t == "def") area.placeholder = "Enter definion, supports TDJ markdown";
+    else if (_t == "sub") area.placeholder = "Enter subheading (can be empty)";
     area.onkeydown = (e) => (e.key == 'Enter') ? this.blur() : () => {};
     area.onblur = () => editEnd(dom, _t);
     area.style.width = "100%";
@@ -91,15 +93,15 @@ function edit_render(str) {
         .replace(/\[(.+?)\]/g, "<a href='index.html?=$1' target='_blank'>$1</a>");
 }
 
-function edit_show_data(_json) {
+function edit_show_data(_json, query=DATA.key) {
     if (_json.key == "404") {
-        _json.key = "Enter word";
+        _json.key = query;
         _json.sub = "Enter subheading (can be empty)";
         _json.def = "Enter definion, supports TDJ markdown";
     }
     DATA = _json;
     const res = document.getElementById("main");
-    res.innerHTML = `<h1 onclick="editStart(this, 'key')">${_json.key}</h1><hr><h2 onclick="editStart(this, 'sub')">${_json.sub}</h2><p onclick="editStart(this, 'def')">${edit_render(_json.def)}</p>`;
+    res.innerHTML = `<h1>${query}</h1><hr><h2 onclick="editStart(this, 'sub')">${_json.sub || "Enter subheading (can be empty)"}</h2><p onclick="editStart(this, 'def')">${edit_render(_json.def) || "Enter definion, supports TDJ markdown"}</p>`;
     document.getElementById("footer")
         .innerHTML = `<hr>TDJ by Ificiana`;
 }
