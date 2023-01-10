@@ -2,14 +2,26 @@
 <html lang="ja-jp">
 
 <head>
-    <meta charset="UTF-8"/>
-    <meta content="width=device-width,initial-scale=1" name="viewport"/>
-    <meta name="description"
-        content="TDJ by Ificiana: ">
+    <meta charset="UTF-8" />
+    <meta content="width=device-width,initial-scale=1" name="viewport" />
+    <meta name="description" content="TDJ by Ificiana: ">
+    <meta name="author" content="ificiana" />
+    <meta name="theme-color" content="#36064b" />
+    <meta property="og:title" content="TDJ: TopDownJapanese" />
+    <meta property="og:locale" content="ja_JP" />
+    <meta property="og:description" content="Learning Japanese in a topdown manner." />
+    <meta property="og:image" content="logo.webp" />
+    <link rel="icon" href="favicon.ico" />
+    <link rel="preload" href="logo.webp" as="image" />
+    <link rel="preload" href="bg.webp" as="image" />
+    <link rel="preload" href="main.js" as="script" />
+    <link rel="preload" href="main.css" as="style" />
     <link rel="preconnect" href="https://ificiana.alwaysdata.net/">
     <title>TDJ</title>
     <script>
-        const sq = new Proxy(new URLSearchParams(window.location.search), { get: (searchParams, prop) => searchParams.get(prop) })[""];
+        const sq = new Proxy(new URLSearchParams(window.location.search), {
+            get: (searchParams, prop) => searchParams.get(prop)
+        })[""];
         if (sq === null) window.location.href = "?=ホームページ";
         document.title = sq;
 
@@ -18,24 +30,32 @@
     <link rel="stylesheet" href="main.css" media="print" onload="this.media='all'">
 </head>
 
-<body>
-<header>
-    <div class="search"><input autocomplete="off" id="search" name="search"
-                               placeholder="Search..."/></div>
-</header>
-<main id="main"></main>
-<footer id="footer"></footer>
-<script>
+<body style="background-repeat: no-repeat; background-image: url('bg.webp'); background-size: 100vw 100vh;">
+    <header>
+        <img src="logo.webp" style="position: relative; float: left; height: 40px; width: 50px;" alt="logo" />
+        <div class="search"><input autocomplete="off" id="search" name="search" placeholder="Search..."
+                style="border-radius: 5px;" /></div>
+    </header>
+    <main id="main">
+        <div class="flower-spinner">
+            <div class="dots-container">
+                <div class="bigger-dot">
+                    <div class="smaller-dot"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer id="footer"></footer>
+    <script>
         window.onload = () => {
             load(sq);
             search(document.getElementById("search"));
-            document
-                .getElementsByTagName('meta')
+            document.getElementsByTagName('meta')
                 .namedItem('description')
-                .setAttribute('content', `TMD by Ificiana: ${sq}`)
+                .setAttribute('content', `TDJ by Ificiana: ${sq}`)
         }
 
-</script>
+    </script>
 </body>
 
 </html>
