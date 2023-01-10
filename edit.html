@@ -5,6 +5,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <meta name="robots" content="noindex">
+    <link rel="icon" href="favicon.ico" />
+    <link rel="preload" href="logo.webp" as="image" />
+    <link rel="preload" href="bg.webp" as="image" />
+    <link rel="preload" href="main.js" as="script" />
+    <link rel="preconnect" href="https://jp-tok.functions.appdomain.cloud">
     <title>TDJ</title>
     <script>
         const sq = new Proxy(new URLSearchParams(window.location.search), { get: (searchParams, prop) => searchParams.get(prop) })[""];
@@ -31,7 +36,7 @@
             </div>
         </div>
     </main>
-    <div id="id01" class="modal">
+    <div id="id01" class="modal" style="display: none;">
         <form class="modal-content animate" id="save_form" onsubmit="event.preventDefault(); save(1)">
             <div class="imgcontainer"> <span onclick="document.getElementById('id01').style.display='none'"
                     class="close" title="Close Modal">&times;</span> Confirm Identity
