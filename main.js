@@ -106,7 +106,10 @@ async function search(inp) {
 }
 
 function render(str, query) {
-    return str.replace(/\[!(.+?)\]/g, `<a href='$1.html?=${query}'>$1</a>`)
+    return str
+        .replace(/\n\n/g, "<br>")
+        .replace(/-{3,}\n/g, "<hr>")    
+        .replace(/\[!(.+?)\]/g, `<a href='$1.html?=${query}'>$1</a>`)
         .replace(/\[(.+?)\]/g,
             "<a href='?=$1'>$1</a>");
 }

@@ -89,7 +89,10 @@ function save(_done = 0) {
 }
 
 function edit_render(str) {
-    return str.replace(/\[!(.+?)\]/g, `<a href='/$1.html?=${sq}' target='_blank'>$1</a>`)
+    return str
+        .replace(/\n\n/g, "<br>")
+        .replace(/-{3,}\n/g, "<hr>")
+        .replace(/\[!(.+?)\]/g, `<a href='/$1.html?=${sq}' target='_blank'>$1</a>`)
         .replace(/\[(.+?)\]/g, "<a href='index.html?=$1' target='_blank'>$1</a>");
 }
 
