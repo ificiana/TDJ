@@ -109,6 +109,7 @@ function render(str, query) {
     return str
         .replace(/\n\n/g, "<br>")
         .replace(/-{3,}\n/g, "<hr>")    
+        .replace(/\[!k\((.+?)\)\]/g, `<a href='?=kanji:$1' style="color: purple">$1</a>`)
         .replace(/\[!(.+?)\]/g, `<a href='$1.html?=${query}'>$1</a>`)
         .replace(/\[(.+?)\]/g,
             "<a href='?=$1'>$1</a>");
