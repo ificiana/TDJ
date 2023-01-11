@@ -69,7 +69,8 @@ function save(_done = 0) {
             data: {
                 def: DATA.def,
                 sub: DATA.sub,
-                key: DATA.key
+                key: DATA.key,
+                delete: DATA.delete || "false"
             }
         };
         (async () => {
@@ -86,6 +87,11 @@ function save(_done = 0) {
             console.log(response);
         })();
     }
+}
+
+function delete_(query) {
+    DATA.delete = "true";
+    if (query == window.prompt("You're about to delete this document, type the [key] to continue")) save();
 }
 
 function edit_render(str) {
@@ -105,7 +111,7 @@ function edit_show_data(_json, query=DATA.key) {
     }
     DATA = _json;
     const res = document.getElementById("main");
-    res.innerHTML = `<h1>${query}</h1><hr><h2 onclick="editStart(this, 'sub')">${_json.sub || "Enter subheading (can be empty)"}</h2><p onclick="editStart(this, 'def')">${edit_render(_json.def) || "Enter definion, supports TDJ markdown"}</p>`;
+    res.innerHTML = `<div style="display: flex; flex-direction: row;"><h1>${query}</h1><a href='javascript:void(0)' onclick='delete_("${query}")' style='float: right; margin: auto 10px auto auto'>[DELETE]</a></div><hr><h2 onclick="editStart(this, 'sub')">${_json.sub || "Enter subheading (can be empty)"}</h2><p onclick="editStart(this, 'def')">${edit_render(_json.def) || "Enter definion, supports TDJ markdown"}</p>`;
     document.getElementById("footer")
         .innerHTML = `<hr>TDJ by Ificiana`;
 }
