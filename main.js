@@ -127,8 +127,8 @@ function show_data(_json, query) {
     <div style='float: right; margin: auto auto auto 10px'>
     [<a href="javascript:void(0)" onclick="showEng=false; show_data(DATA, DATA.key)">JA</a>|<a href="javascript:void(0)" onclick="showEng=true; show_data(DATA, DATA.key)">EN</a>]
     </div></div>
-    <hr><h2>${showEng?_json.esub:_json.sub}</h2>
-    <p>${render(showEng?_json.edef:_json.def, query)}</p>`;
+    <hr><h2>${(showEng?_json.esub:_json.sub) || _json.sub}</h2>
+    <p>${render((showEng?_json.edef:_json.def) || "Not Avalable", query)}</p>`;
     document.getElementById("footer").innerHTML = `<hr>${render(_json.footer, query)}`;
 }
 async function load(query) {
