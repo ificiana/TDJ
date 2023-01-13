@@ -111,11 +111,10 @@ function render(str, query) {
     if(!str) return "";
     return str
         .replace(/\n\n/g, "<br>")
-        .replace(/-{3,}\n/g, "<hr>")    
+        .replace(/[-=_]{3,}\n/g, "<hr style='width:50%; margin: 10px auto 20px auto;'>")
         .replace(/\[!k\((.+?)\)\]/g, `<a href='?=kanji:$1' style="color: purple">$1</a>`)
         .replace(/\[!(.+?)\]/g, `<a href='$1.html?=${query}'>$1</a>`)
-        .replace(/\[(.+?)\]/g,
-            "<a href='?=$1'>$1</a>");
+        .replace(/\[(.+?)\]/g, "<a href='?=$1'>$1</a>");
 }
 
 function show_data(_json, query) {
