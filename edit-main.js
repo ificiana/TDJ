@@ -37,7 +37,8 @@ const escapeHTML = s => {
     return out;
 }
 let area = null;
-let DATA = null;
+showEng - false;
+// let DATA = null;
 
 function editStart(dom, _t) {
     area = document.createElement('textarea');
@@ -47,7 +48,7 @@ function editStart(dom, _t) {
     else if (_t == "sub") area.placeholder = "Enter subheading (can be empty)";
     area.onkeydown = (e) => (e.key == 'Enter') ? this.blur() : () => {};
     area.onblur = () => editEnd(dom, _t);
-    area.style.width = "100%";
+    // area.style.width = "100%";
     area.style.height = "4rem";
     dom.replaceWith(area);
     area.focus();
@@ -70,7 +71,9 @@ function save(_done = 0) {
                 def: DATA.def,
                 sub: DATA.sub,
                 key: DATA.key,
-                delete: DATA.delete || "false"
+                delete: DATA.delete || "false",
+                esub: DATA.esub || DATA.sub,
+                edef: DATA.edef || "Not Available"
             }
         };
         (async () => {
@@ -95,6 +98,7 @@ function delete_(query) {
 }
 
 function edit_render(str) {
+    if(!str) return "";
     return str
         .replace(/\n\n/g, "<br>")
         .replace(/-{3,}\n/g, "<hr>")
@@ -108,13 +112,24 @@ function edit_show_data(_json, query=DATA.key) {
         _json.key = query;
         _json.sub = "Enter subheading (can be empty)";
         _json.def = "Enter definion, supports TDJ markdown";
+        _json.esub = "Enter subheading (can be empty)";
+        _json.edef = "Enter definion, supports TDJ markdown";
     }
     DATA = _json;
     const res = document.getElementById("main");
-    res.innerHTML = `<div style="display: flex; flex-direction: row;"><h1>${query}</h1><a href='javascript:void(0)' onclick='delete_("${query}")' style='float: right; margin: auto 10px auto auto'>[DELETE]</a></div><hr><h2 onclick="editStart(this, 'sub')">${_json.sub || "Enter subheading (can be empty)"}</h2><p onclick="editStart(this, 'def')">${edit_render(_json.def) || "Enter definion, supports TDJ markdown"}</p>`;
-    document.getElementById("footer")
-        .innerHTML = `<hr>TDJ by Ificiana`;
+    res.innerHTML = `
+    <div style="display: flex; flex-direction: row;">
+    <h1>${query}</h1>
+    <div style='float: right; margin: auto auto auto 10px'>
+    [<a href="javascript:void(0)" onclick="showEng=false; edit_show_data(DATA, DATA.key)">JA</a>|<a href="javascript:void(0)" onclick="showEng=true; edit_show_data(DATA, DATA.key)">EN</a>]
+    </div>
+    <a href='javascript:void(0)' onclick='delete_("${query}")' style='float: right; margin: auto 10px auto auto'>[DELETE]</a>
+    </div><hr>
+    <h2 onclick="editStart(this, ${(showEng?"'esub'":"'sub'")})">${(showEng?_json.esub:_json.sub) || _json.sub || "Enter subheading (can be empty)"}</h2>
+    <p onclick="editStart(this, ${(showEng?"'edef'":"'def'")})">${edit_render((showEng?_json.edef:_json.def)) || "Enter definion, supports TDJ markdown"}</p>`;
+    document.getElementById("footer").innerHTML = `<hr>TDJ by Ificiana`;
 }
+
 async function load(query) {
     const data = await fetch(endpts.get(query));
     edit_show_data(await data.json(), query);

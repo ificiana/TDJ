@@ -15,6 +15,8 @@ const debounce = (fn, ms) => {
         timer = setTimeout(fn.bind(this, ...args), ms || 0);
     }
 }
+let showEng = false;
+let DATA = null;
 
 async function search(inp) {
     let arrSearch = [], currentFocus;
@@ -106,6 +108,7 @@ async function search(inp) {
 }
 
 function render(str, query) {
+    if(!str) return "";
     return str
         .replace(/\n\n/g, "<br>")
         .replace(/-{3,}\n/g, "<hr>")    
@@ -116,8 +119,16 @@ function render(str, query) {
 }
 
 function show_data(_json, query) {
+    DATA = _json;
     const res = document.getElementById("main");
-    res.innerHTML = `<h1>${_json.key}</h1><hr><h2>${_json.sub}</h2><p>${render(_json.def, query)}</p>`;
+    res.innerHTML = `
+    <div style="display: flex; flex-direction: row;">
+    <h1>${query}</h1>
+    <div style='float: right; margin: auto auto auto 10px'>
+    [<a href="javascript:void(0)" onclick="showEng=false; show_data(DATA, DATA.key)">JA</a>|<a href="javascript:void(0)" onclick="showEng=true; show_data(DATA, DATA.key)">EN</a>]
+    </div></div>
+    <hr><h2>${showEng?_json.esub:_json.sub}</h2>
+    <p>${render(showEng?_json.edef:_json.def, query)}</p>`;
     document.getElementById("footer").innerHTML = `<hr>${render(_json.footer, query)}`;
 }
 async function load(query) {
