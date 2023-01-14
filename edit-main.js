@@ -102,7 +102,8 @@ function edit_render(str) {
     return str
         .replace(/\n\n/g, "<br>")
         .replace(/[-=_]{3,}\n/g, "<hr style='width:50%; margin: 10px auto 20px auto;'>")
-        .replace(/\[!k\((.+?)\)\]/g, `<a href='?=kanji:$1' target='_blank' style="color: purple">$1</a>`)
+        .replace(/\[k!(.+?)\]/g, `<a href='?=kanji::$1' style="color: purple" target='_blank'>$1</a>`)
+        .replace(/\[m!(.+?)\]/g, `<a href='?=meta::$1' style="color: purple" target='_blank'>$1</a>`)
         .replace(/\[!(.+?)\]/g, `<a href='/$1.html?=${sq}' target='_blank'>$1</a>`)
         .replace(/\[(.+?)\]/g, "<a href='index.html?=$1' target='_blank'>$1</a>");
 }
